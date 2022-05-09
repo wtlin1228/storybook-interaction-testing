@@ -1,3 +1,6 @@
+import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
+
 import React from 'react';
 
 import { Button } from './Button';
@@ -20,6 +23,13 @@ export const Primary = Template.bind({});
 Primary.args = {
   primary: true,
   label: 'Button',
+};
+Primary.play = async ({ args, canvasElement }) => {
+  const canvas = within(canvasElement);
+  await userEvent.click(
+    canvas.getByRole('button', { name: 'Button' })
+  );
+  await waitFor(() => expect(args.onClick).toHaveBeenCalled());
 };
 
 export const Secondary = Template.bind({});
