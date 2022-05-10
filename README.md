@@ -123,7 +123,7 @@ Use `puppeteer` to write e2e tests.
 
 # Minimize the risks
 
-Here comes my first solution. 🧐
+Here comes my first approach. 🧐
 
 Maybe we can extract the assertions and run them in both Storybook and Jest. Then we can:
 
