@@ -19,7 +19,7 @@ The risks would be:
 - We couldn't collect the testing coverage of Interaction Tests.
 - What if we want to leave Storybook? We will have to unbind our tests with stories.
 
-Is it possible to minimize the risks? Yes, it's possible and I'm trying to. See [Minimize the risks](#minimize-the-risks)
+Is it possible to minimize the risks? Yes, it's possible. See [Minimize the risks](#minimize-the-risks)
 
 # Survey
 
@@ -35,7 +35,7 @@ ref: https://storybook.js.org/docs/react/essentials/interactions
 
 Run `$ npm run test-storybook`.
 
-![testing](./images/testing.png)
+![interaction-testing](./images/interaction-testing.png)
 
 ref: https://storybook.js.org/blog/interaction-testing-with-storybook/
 
@@ -113,7 +113,7 @@ Maybe it's the most popular e2e testing framework now.
 
 Migration from Enzyme to Testing Library since `v5.0.0`.
 
-Use `playwright` as it's e2e test framework.
+Use `playwright` as its e2e test framework.
 
 ### Ant Design
 
@@ -123,13 +123,15 @@ Use `puppeteer` to write e2e tests.
 
 # Minimize the risks
 
+Here comes my first solution. 🧐
+
 Maybe we can extract the assertions and run them in both Storybook and Jest. Then we can:
 
-- enable the Storybook Interaction features
-- collect testing coverage with Jest
-- lower the pain of migrating to other tools like Storybook
+- Enable the Storybook Interaction features
+- Collect testing coverage with Jest
+- Lower the pain of migrating to other tools like Storybook
 
-There are two things to deal with:
+There are three things to deal with:
 
 1. Storybook selects the `canvas` with `within` API where Testing Library usually uses the `screen` directly.
 
@@ -140,3 +142,89 @@ There are two things to deal with:
    We can simply use `@storybook/testing-library` since it just re-exports `@testing-library/dom` and `@testing-library/user-event` with some additional instructions.
 
    See https://github.com/storybookjs/testing-library/blob/main/src/index.ts
+
+3. Storybook uses `expect` exported from `@storybook/jest`
+
+   We can simply use the `export` of `@storybook/jest` since it just re-exports the `expect` with some additional instructions.
+
+## Centralize our test utils
+
+Re-export everything that will be used in extracted assertions.
+
+```js
+// test-utils/testing-library.js
+
+export { expect } from "@storybook/jest";
+export * from "@storybook/testing-library";
+```
+
+## Extract shared assertions
+
+`screen` is the canvas element in Storybook or the `document.body` in Jest usually.
+
+```js
+// extracted-assertions/button.js
+
+import { expect, userEvent, waitFor } from "../test-utils/testing-library";
+
+export const assertButtonIsClicked = async ({ args, screen }) => {
+  await userEvent.click(screen.getByRole("button", { name: "Button" }));
+  await waitFor(() => expect(args.onClick).toHaveBeenCalledTimes(1));
+};
+```
+
+ref:
+
+- https://testing-library.com/docs/queries/about/#screen
+
+## Use the shared assertions
+
+Use the assertion in both Storybook and Jest.
+
+```js
+// stories/Button.stories.jsx
+
+Primary.play = async ({ args, canvasElement }) => {
+  const canvas = within(canvasElement);
+  await assertButtonIsClicked({ args, screen: canvas });
+};
+```
+
+```js
+// stories/Button.test.js
+
+describe("Button", () => {
+  it("triggers the onClick callback when it's clicked", async () => {
+    const props = {
+      label: "Button",
+      onClick: jest.fn(),
+    };
+
+    render(<Button {...props} />);
+
+    await assertButtonIsClicked({ args: props, screen });
+  });
+});
+```
+
+## The Interactions should work in Storybook
+
+`$ npm run storybook`
+
+🎉🎉🎉
+
+<img src="https://media.giphy.com/media/WgMrGs31u6DwgI46Ij/giphy.gif" />
+
+## The Interaction Testing should work
+
+`$ npm run test-storybook`
+
+🎉🎉🎉
+
+![interaction-testing](./images/interaction-testing.png)
+
+## The coverage should be collected by Jest
+
+`$ npm run test`
+
+![jest-coverage](./images/jest-coverage.png)

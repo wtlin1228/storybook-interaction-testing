@@ -3,7 +3,7 @@ import React from "react";
 // directly import from @storybook/testing-library here since it's stories file
 import { within } from "@storybook/testing-library";
 
-import { assertButtonIsClicked } from "../tests/button";
+import { assertButtonIsClicked } from "../extracted-assertions/button";
 
 import { Button } from "./Button";
 

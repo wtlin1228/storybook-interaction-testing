@@ -1,5 +1,4 @@
-import { expect } from "@storybook/jest";
-import { userEvent, waitFor } from "../test-utils/testing-library";
+import { expect, userEvent, waitFor } from "../test-utils/testing-library";
 
 export const assertButtonIsClicked = async ({ args, screen }) => {
   await userEvent.click(screen.getByRole("button", { name: "Button" }));

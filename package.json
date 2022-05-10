@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "test-storybook": "test-storybook"
@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/preset-react": "^7.16.7",
     "@storybook/addon-actions": "^6.4.22",
     "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-interactions": "^6.4.22",
@@ -26,9 +28,14 @@
     "@storybook/react": "^6.4.22",
     "@storybook/test-runner": "^0.0.8",
     "@storybook/testing-library": "^0.0.11",
+    "@testing-library/dom": "^8.13.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/user-event": "^13.5.0",
+    "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.5",
     "jest": "^27.5.1",
-    "jest-runner": "^27.5.1",
-    "jest-environment-node": "27.5.1"
+    "jest-environment-node": "27.5.1",
+    "jest-runner": "^27.5.1"
   }
 }
