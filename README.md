@@ -18,7 +18,7 @@ Run `$ npm run test-storybook`.
 
 ref: https://storybook.js.org/blog/interaction-testing-with-storybook/
 
-## Trouble shotting
+## Troubleshooting
 
 ### fix `test-storybook` error
 
