@@ -227,4 +227,6 @@ describe("Button", () => {
 
 `$ npm run test`
 
+🎉🎉🎉
+
 ![jest-coverage](./images/jest-coverage.png)
