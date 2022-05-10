@@ -1,7 +1,9 @@
-import { expect } from "@storybook/jest";
-import { userEvent, waitFor, within } from "@storybook/testing-library";
-
 import React from "react";
+
+// directly import from @storybook/testing-library here since it's stories file
+import { within } from "@storybook/testing-library";
+
+import { assertButtonIsClicked } from "../tests/button";
 
 import { Button } from "./Button";
 
@@ -24,10 +26,10 @@ Primary.args = {
   primary: true,
   label: "Button",
 };
+
 Primary.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  await userEvent.click(canvas.getByRole("button", { name: "Button" }));
-  await waitFor(() => expect(args.onClick).toHaveBeenCalledTimes(1));
+  await assertButtonIsClicked({ args, screen: canvas });
 };
 
 export const Secondary = Template.bind({});

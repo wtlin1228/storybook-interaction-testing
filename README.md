@@ -19,9 +19,7 @@ The risks would be:
 - We couldn't collect the testing coverage of Interaction Tests.
 - What if we want to leave Storybook? We will have to unbind our tests with stories.
 
-Is it possible to minimize the risks?
-
-It's possible. I am trying.
+Is it possible to minimize the risks? Yes, it's possible and I'm trying to. See [Minimize the risks](#minimize-the-risks)
 
 # Survey
 
@@ -122,3 +120,23 @@ Use `playwright` as it's e2e test framework.
 Recommend using Testing Library on [Ant Design Pro](https://pro.ant.design/docs/test/).
 
 Use `puppeteer` to write e2e tests.
+
+# Minimize the risks
+
+Maybe we can extract the assertions and run them in both Storybook and Jest. Then we can:
+
+- enable the Storybook Interaction features
+- collect testing coverage with Jest
+- lower the pain of migrating to other tools like Storybook
+
+There are two things to deal with:
+
+1. Storybook selects the `canvas` with `within` API where Testing Library usually uses the `screen` directly.
+
+   We can use dependency injection to inject `screen` into our extracted assertions.
+
+2. Storybook uses `@storybook/testing-library` instead of `@testing-library`.
+
+   We can simply use `@storybook/testing-library` since it just re-exports `@testing-library/dom` and `@testing-library/user-event` with some additional instructions.
+
+   See https://github.com/storybookjs/testing-library/blob/main/src/index.ts
