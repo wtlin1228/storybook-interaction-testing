@@ -35,3 +35,15 @@ Please set the following dependencies according to this [issue#18120](https://gi
 "jest-runner": "^27.5.1",
 "jest-environment-node": "27.5.1"
 ```
+
+### collect test coverage
+
+Storybook doesn't support coverage from **Interaction Testing** yet.
+
+See https://discord.com/channels/486522875931656193/691505730125168682/965162639321882634.
+
+![coverage](./images/discord-coverage.png)
+
+`jest-playwright` does support coverage collecting with option `collectCoverage: true`. But it seems not working now.
+
+ref: https://github.com/playwright-community/jest-playwright#:~:text=collectCoverage%20%3C%5Bboolean%5D%3E.%20Enables%20the%20coverage%20collection%20of%20the%20saveCoverage(page)%20calls%20to%20the%20.nyc_output/coverage.json%20file.
