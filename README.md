@@ -21,7 +21,7 @@ The risks would be:
 
 Is it possible to minimize the risks? Yes, it's possible. See [Minimize the risks](#minimize-the-risks)
 
-in my opinion, one **BIG** question to ask ourselves is **Does the coverage really give us enough confidence?** 🤔
+In my opinion, one **BIG** question to ask ourselves is **Does the coverage really give us higher confidence?** 🤔
 
 # Survey
 
